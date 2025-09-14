@@ -13,9 +13,7 @@ export default function Auth() {
       const payload = JSON.parse(atob(credentialString.split('.')[1]))
       console.log('User info:', payload)
 
-      // Handle successful sign-in (e.g., redirect, store user data, etc.)
-      // You can access user data like:
-      // payload.name, payload.email, payload.picture
+    
     } catch (error) {
       console.error('Failed to decode credential:', error)
     }
