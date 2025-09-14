@@ -8,7 +8,7 @@ interface ConnectAppProps {
   workspaceName: string;
 }
 
-export default function ConnectApp({ workspaceName }: ConnectAppProps) {
+export default function ConnectApp({ }: ConnectAppProps) {
   const [apiKey] = useState("vibe_sk_1234567890abcdef");
   const [copied, setCopied] = useState(false);
 

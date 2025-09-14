@@ -66,7 +66,7 @@ export default function GoogleSignInButton({
         document.body.removeChild(script)
       }
     }
-  }, [])
+  }, [onError])
 
   const handleGoogleSignIn = async () => {
     if (!scriptLoaded || !window.google) {
