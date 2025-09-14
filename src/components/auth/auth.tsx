@@ -3,38 +3,19 @@
 import GoogleSignInButton from './GoogleSignInButton'
 import Image from 'next/image'
 import { authController } from '@/controllers/authController'
-import { useEffect, useState } from 'react'
 
 export default function Auth() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string>('')
 
-  useEffect(() => {
-    // Check if this is a callback from Google OAuth
-    const urlParams = new URLSearchParams(window.location.search)
-    const code = urlParams.get('code')
-    const error = urlParams.get('error')
-    
-    if (code || error) {
-      handleGoogleCallback()
-    } else {
-      setIsLoading(false)
-    }
-  }, [])
-
-  const handleGoogleCallback = async () => {
-    setIsLoading(true)
-    const result = await authController.handleGoogleCallback()
+    const result = await authController.handleGoogleSignIn(credentialString)
 
     if (result.success) {
       console.log('Authentication successful')
       window.location.href = result.redirectUrl || '/workspace'
     } else {
       console.error('Authentication failed:', result.error)
-      setError(result.error || 'Authentication failed')
-      // Clear URL parameters
-      window.history.replaceState({}, document.title, window.location.pathname)
-      setIsLoading(false)
+      // Handle error - could show toast notification
     }
   }
 
