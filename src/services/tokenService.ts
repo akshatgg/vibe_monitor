@@ -1,5 +1,3 @@
-import { getCookie, setCookie, deleteCookie } from 'cookies-next';
-
 interface TokenData {
   access_token: string;
   refresh_token: string;
@@ -12,40 +10,27 @@ export class TokenService {
   private readonly EXPIRES_AT_KEY = 'token_expires_at';
 
   setTokens(data: TokenData): void {
-    const expiresAt = new Date(Date.now() + (data.expires_in * 1000));
+    const expiresAt = Date.now() + (data.expires_in * 1000);
 
-    setCookie(this.ACCESS_TOKEN_KEY, data.access_token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      expires: expiresAt
-    });
-
-    setCookie(this.REFRESH_TOKEN_KEY, data.refresh_token, {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 30 * 24 * 60 * 60 // 30 days
-    });
-
-    setCookie(this.EXPIRES_AT_KEY, expiresAt.getTime().toString(), {
-      httpOnly: false,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      expires: expiresAt
-    });
+    localStorage.setItem(this.ACCESS_TOKEN_KEY, data.access_token);
+    localStorage.setItem(this.REFRESH_TOKEN_KEY, data.refresh_token);
+    localStorage.setItem(this.EXPIRES_AT_KEY, expiresAt.toString());
   }
 
   getAccessToken(): string | null {
-    return getCookie(this.ACCESS_TOKEN_KEY) as string || null;
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem(this.ACCESS_TOKEN_KEY);
   }
 
   getRefreshToken(): string | null {
-    return getCookie(this.REFRESH_TOKEN_KEY) as string || null;
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem(this.REFRESH_TOKEN_KEY);
   }
 
   isTokenExpired(): boolean {
-    const expiresAt = getCookie(this.EXPIRES_AT_KEY) as string;
+    if (typeof window === 'undefined') return true;
+
+    const expiresAt = localStorage.getItem(this.EXPIRES_AT_KEY);
     if (!expiresAt) return true;
 
     // Add 5 minute buffer before expiration
@@ -54,9 +39,11 @@ export class TokenService {
   }
 
   clearTokens(): void {
-    deleteCookie(this.ACCESS_TOKEN_KEY);
-    deleteCookie(this.REFRESH_TOKEN_KEY);
-    deleteCookie(this.EXPIRES_AT_KEY);
+    if (typeof window === 'undefined') return;
+
+    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    localStorage.removeItem(this.EXPIRES_AT_KEY);
   }
 
   hasValidToken(): boolean {
