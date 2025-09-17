@@ -3,38 +3,48 @@
 import GoogleSignInButton from './GoogleSignInButton'
 import Image from 'next/image'
 import { authController } from '@/controllers/authController'
-import { useEffect, useState } from 'react'
 
 export default function Auth() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string>('')
+  const handleGoogleSuccess = async (credentialString: string) => {
+    console.log('Google Sign-In successful:', credentialString)
 
-  useEffect(() => {
-    // Check if this is a callback from Google OAuth
-    const urlParams = new URLSearchParams(window.location.search)
-    const code = urlParams.get('code')
-    const error = urlParams.get('error')
-    
-    if (code || error) {
-      handleGoogleCallback()
-    } else {
-      setIsLoading(false)
-    }
-  }, [])
+    try {
+      // Decode the JWT token to get user information
+      const payload = JSON.parse(atob(credentialString.split('.')[1]))
+      console.log('User info:', payload)
 
-  const handleGoogleCallback = async () => {
-    setIsLoading(true)
-    const result = await authController.handleGoogleCallback()
+      // Send user data to FastAPI backend
+      const response = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          credential: credentialString,
+          google_token: credentialString,
+          user_info: {
+            email: payload.email,
+            name: payload.name,
+            last_name: payload.family_name,
+            picture: payload.picture,
+            uid: payload.sub
+          }
+        })
+      })
 
-    if (result.success) {
-      console.log('Authentication successful')
-      window.location.href = result.redirectUrl || '/workspace'
-    } else {
-      console.error('Authentication failed:', result.error)
-      setError(result.error || 'Authentication failed')
-      // Clear URL parameters
-      window.history.replaceState({}, document.title, window.location.pathname)
-      setIsLoading(false)
+      if (response.ok) {
+        const data = await response.json()
+        // Store access token for future API calls
+        localStorage.setItem('access_token', data.access_token)
+        console.log('Authentication successful:', data)
+
+        // Redirect to workspace or dashboard
+        window.location.href = '/workspace'
+      } else {
+        console.error('Backend authentication failed')
+      }
+    } catch (error) {
+      console.error('Failed to authenticate:', error)
     }
   }
 

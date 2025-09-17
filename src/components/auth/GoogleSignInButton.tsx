@@ -17,6 +17,33 @@ export default function GoogleSignInButton({
   text = "Sign in with Google"
 }: GoogleSignInButtonProps) {
   const [isLoading, setIsLoading] = useState(false)
+  const [scriptLoaded, setScriptLoaded] = useState(false)
+
+  useEffect(() => {
+    if (window.google) {
+      setScriptLoaded(true)
+      return
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    script.async = true
+    script.defer = true
+
+    script.onload = () => setScriptLoaded(true)
+    script.onerror = () => {
+      console.error('Failed to load Google Sign-In script')
+      onError?.('Failed to load Google Sign-In')
+    }
+
+    document.body.appendChild(script)
+
+    return () => {
+      if (document.body.contains(script)) {
+        document.body.removeChild(script)
+      }
+    }
+  }, [onError])
 
   const handleGoogleSignIn = async () => {
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
