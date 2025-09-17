@@ -1,6 +1,6 @@
 import { tokenService } from './tokenService';
 
-interface ApiResponse<T = any> {
+interface ApiResponse<T = unknown> {
   data?: T;
   error?: string;
   status: number;
