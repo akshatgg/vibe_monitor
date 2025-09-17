@@ -2,7 +2,6 @@
 
 import GoogleSignInButton from './GoogleSignInButton'
 import Image from 'next/image'
-import { authController } from '@/controllers/authController'
 
 export default function Auth() {
   const handleGoogleSuccess = async (credentialString: string) => {
@@ -50,18 +49,7 @@ export default function Auth() {
 
   const handleGoogleError = (error: string | Error) => {
     console.error('Google Sign-In error:', error)
-    setError(typeof error === 'string' ? error : error.message)
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p>Processing authentication...</p>
-        </div>
-      </div>
-    )
+    // Handle sign-in error
   }
 
   return (
@@ -110,16 +98,10 @@ export default function Auth() {
         </div>
       </div>
 
-      {/* Error Message */}
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
-        </div>
-      )}
-
       {/* Google Sign In Button */}
       <div className="space-y-4">
         <GoogleSignInButton
+          onSuccess={handleGoogleSuccess}
           onError={handleGoogleError}
           text="Continue with Google"
         />

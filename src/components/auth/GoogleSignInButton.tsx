@@ -1,9 +1,31 @@
 'use client'
 
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+
+declare global {
+  interface Window {
+    google?: {
+      accounts: {
+        id: {
+          initialize: (config: {
+            client_id: string
+            callback: (response: { credential: string }) => void
+            auto_select?: boolean
+            cancel_on_tap_outside?: boolean
+          }) => void
+          prompt: (callback?: (notification: {
+            isNotDisplayed: () => boolean
+            isSkippedMoment: () => boolean
+          }) => void) => void
+        }
+      }
+    }
+  }
+}
 
 interface GoogleSignInButtonProps {
+  onSuccess?: (credential: string) => void
   onError?: (error: string) => void
   disabled?: boolean
   className?: string
@@ -11,6 +33,7 @@ interface GoogleSignInButtonProps {
 }
 
 export default function GoogleSignInButton({
+  onSuccess,
   onError,
   disabled = false,
   className = "",
@@ -43,9 +66,15 @@ export default function GoogleSignInButton({
         document.body.removeChild(script)
       }
     }
-  }, [onError])
+  }, [])
 
   const handleGoogleSignIn = async () => {
+    if (!scriptLoaded || !window.google) {
+      console.error('Google Sign-In script not loaded')
+      onError?.('Google Sign-In not available')
+      return
+    }
+
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
     if (!clientId) {
       console.error('Google Client ID not configured')
@@ -56,31 +85,22 @@ export default function GoogleSignInButton({
     setIsLoading(true)
 
     try {
-      // Use frontend callback URL to match Google console config
-      const redirectUri = `${window.location.origin}/auth/google/callback`
-      const scope = 'openid email profile'
-      const responseType = 'code'
-      // const state = Math.random().toString(36).substring(2, 15)
-
-      // Store state for validation
-      // localStorage.setItem('oauth_state', state)
-      // console.log('Generated state:', state)
-
-      const params = new URLSearchParams({
+      window.google.accounts.id.initialize({
         client_id: clientId,
-        redirect_uri: redirectUri,
-        scope,
-        response_type: responseType,
-        // state,
-        access_type: 'offline',
-        prompt: 'consent'
+        callback: (response) => {
+          setIsLoading(false)
+          onSuccess?.(response.credential)
+        },
+        auto_select: false,
+        cancel_on_tap_outside: true,
       })
 
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
-
-      // Redirect to Google OAuth
-      window.location.href = authUrl
-
+      window.google.accounts.id.prompt((notification) => {
+        if (notification?.isNotDisplayed() || notification?.isSkippedMoment()) {
+          setIsLoading(false)
+          onError?.('Sign-in cancelled or unavailable')
+        }
+      })
     } catch (error) {
       setIsLoading(false)
       console.error('Google Sign-In error:', error)
@@ -94,7 +114,7 @@ export default function GoogleSignInButton({
       variant="ghost"
       className={`w-full border border-gray-700 hover:bg-gray-900 transition-colors ${className}`}
       onClick={handleGoogleSignIn}
-      disabled={disabled || isLoading}
+      disabled={disabled || isLoading || !scriptLoaded}
     >
       {isLoading ? (
         <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
@@ -118,7 +138,7 @@ export default function GoogleSignInButton({
           />
         </svg>
       )}
-      {isLoading ? 'Signing in...' : text}
+      {isLoading ? 'Signing in...' : !scriptLoaded ? 'Loading...' : text}
     </Button>
   )
 }
