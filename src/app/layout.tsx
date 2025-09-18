@@ -1,7 +1,8 @@
 
 import "./globals.css";
-
+import { ConditionalLayout } from "@/components/conditional-layout"
 import StoreProvider from './StoreProvider';
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -13,9 +14,11 @@ export default function RootLayout({
         className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] transition-colors duration-500"
         suppressHydrationWarning={true}
       >
-       <StoreProvider>{children}</StoreProvider>
-      
-       
+        <StoreProvider>
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
+        </StoreProvider>
       </body>
     </html>
   );
