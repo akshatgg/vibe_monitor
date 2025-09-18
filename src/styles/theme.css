@@ -7,15 +7,27 @@
   --color-accent-light: #fcd34d;
   --color-accent-dark: #f59e0b;
 
+  /* Colors - Purple Theme */
+  --color-purple-primary: #8b5cf6;
+  --color-purple-light: #a78bfa;
+  --color-purple-dark: #7c3aed;
+  --color-purple-muted: #6d28d9;
+  --color-purple-surface: #1e1b2e;
+  --color-purple-surface-light: #2d2438;
+  --color-purple-border: #4c1d95;
+
   /* Colors - Neutral - Dark Theme */
   --color-background: #0c0c0c;
   --color-background-secondary: #1e293b;
   --color-background-tertiary: #334155;
+  --color-background-subtle: rgba(255, 255, 255, 0.02);
+  --color-background-dropdown: #0d0c0c;
   --color-surface: #1e293b;
   --color-surface-secondary: #334155;
   --color-border: #475569;
   --color-border-light: #334155;
   --color-border-dark: #64748b;
+  --color-border-subtle: rgba(156, 163, 175, 0.2);
 
   /* Colors - Text - Dark Theme */
   --color-text-primary: #f1f5f9;

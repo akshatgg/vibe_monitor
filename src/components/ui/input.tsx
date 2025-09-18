@@ -12,19 +12,19 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
         className
       )}
       style={{
-        backgroundColor: 'var(--color-background-secondary)',
+        backgroundColor: 'var(--color-background-dropdown)',
         borderColor: 'var(--color-border)',
         color: 'var(--color-text-primary)',
         ...props.style
       }}
       onFocus={(e) => {
         e.target.style.borderColor = 'var(--color-border-light)';
-        e.target.style.backgroundColor = 'var(--color-surface)';
+        e.target.style.backgroundColor = 'var(--color-background-dropdown)';
         props.onFocus?.(e);
       }}
       onBlur={(e) => {
         e.target.style.borderColor = 'var(--color-border)';
-        e.target.style.backgroundColor = 'var(--color-background-secondary)';
+        e.target.style.backgroundColor = 'var(--color-background-dropdown)';
         props.onBlur?.(e);
       }}
       {...props}
