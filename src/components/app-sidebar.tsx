@@ -1,7 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import {
   Home,
   Search,
@@ -42,6 +42,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Skeleton } from "@/components/ui/skeleton"
 
 const items = [
   {
@@ -80,10 +81,12 @@ export function AppSidebar() {
   const pathname = usePathname()
   const dispatch = useAppDispatch()
   const { user, loading } = useAppSelector((state) => state.user)
+  const hasFetchedUserRef = useRef(false)
 
   useEffect(() => {
-    // Fetch user profile when component mounts if we have a valid token
-    if (tokenService.hasValidToken() && !user) {
+    // Only fetch if we have a token but no user data and haven't already tried
+    if (tokenService.hasValidToken() && !user && !hasFetchedUserRef.current) {
+      hasFetchedUserRef.current = true
       dispatch(fetchUserProfile())
     }
   }, [dispatch, user])
@@ -127,10 +130,10 @@ export function AppSidebar() {
                       isActive={isActive}
                       className={isActive ? "bg-[var(--color-background-hover)] border-l-2 border-[var(--color-blue-line)] hover:bg-[var(--color-background-hover)]" : ""}
                     >
-                      <a href={item.url}>
+                      <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )
@@ -152,12 +155,21 @@ export function AppSidebar() {
                     <User2 className="size-4" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">
-                      {loading ? "Loading..." : user?.name || "User"}
-                    </span>
-                    <span className="truncate text-xs">
-                      {loading ? "..." : user?.email || "user@example.com"}
-                    </span>
+                    { !user ? (
+                      <>
+                        <Skeleton className="h-4 w-20 mb-1" />
+                        <Skeleton className="h-3 w-32" />
+                      </>
+                    ) : (
+                      <>
+                        <span className="truncate font-semibold">
+                          {user?.name}
+                        </span>
+                        <span className="truncate text-xs">
+                          {user?.email}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <ChevronUp className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -175,12 +187,21 @@ export function AppSidebar() {
                       <User2 className="size-4 sidebar-hover" />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">
-                        {loading ? "Loading..." : user?.name || "User"}
-                      </span>
-                      <span className="truncate text-xs">
-                        {loading ? "..." : user?.email || "user@example.com"}
-                      </span>
+                      {loading && !user ? (
+                        <>
+                          <Skeleton className="h-4 w-20 mb-1" />
+                          <Skeleton className="h-3 w-32" />
+                        </>
+                      ) : (
+                        <>
+                          <span className="truncate font-semibold">
+                            {user?.name || "User"}
+                          </span>
+                          <span className="truncate text-xs">
+                            {user?.email || "user@example.com"}
+                          </span>
+                        </>
+                      )}
                     </div>
                   </div>
                 </DropdownMenuLabel>

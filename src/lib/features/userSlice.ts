@@ -73,7 +73,10 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchUserProfile.pending, (state) => {
-        state.loading = true
+        // Only set loading to true if we don't already have user data
+        if (!state.user) {
+          state.loading = true
+        }
         state.error = null
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
