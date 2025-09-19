@@ -200,7 +200,7 @@ export default function LogsDashboard() {
             >
               <div
                 className="w-1 h-4 rounded-full flex-shrink-0 mt-0.5"
-                style={{ backgroundColor: "#var(--color-blue-line)" }}
+                style={{ backgroundColor: "var(--color-blue-line)" }}
               />
               <span>{log}</span>
             </div>

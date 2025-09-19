@@ -1,6 +1,7 @@
 "use client"
 
 import { usePathname } from "next/navigation"
+import { useEffect } from "react"
 import {
   Home,
   Search,
@@ -16,6 +17,9 @@ import {
   Bell,
 } from "lucide-react"
 import Link from "next/link"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks"
+import { fetchUserProfile, clearUser } from "@/lib/features/userSlice"
+import { tokenService } from "@/services/tokenService"
 
 import {
   Sidebar,
@@ -74,6 +78,21 @@ const items = [
 
 export function AppSidebar() {
   const pathname = usePathname()
+  const dispatch = useAppDispatch()
+  const { user, loading } = useAppSelector((state) => state.user)
+
+  useEffect(() => {
+    // Fetch user profile when component mounts if we have a valid token
+    if (tokenService.hasValidToken() && !user) {
+      dispatch(fetchUserProfile())
+    }
+  }, [dispatch, user])
+
+  const handleLogout = () => {
+    tokenService.clearTokens()
+    dispatch(clearUser())
+    window.location.href = '/auth'
+  }
 
   return (
     <Sidebar>
@@ -133,8 +152,12 @@ export function AppSidebar() {
                     <User2 className="size-4" />
                   </div>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-semibold">John Doe</span>
-                    <span className="truncate text-xs">john@company.com</span>
+                    <span className="truncate font-semibold">
+                      {loading ? "Loading..." : user?.name || "User"}
+                    </span>
+                    <span className="truncate text-xs">
+                      {loading ? "..." : user?.email || "user@example.com"}
+                    </span>
                   </div>
                   <ChevronUp className="ml-auto size-4" />
                 </SidebarMenuButton>
@@ -152,8 +175,12 @@ export function AppSidebar() {
                       <User2 className="size-4 sidebar-hover" />
                     </div>
                     <div className="grid flex-1 text-left text-sm leading-tight">
-                      <span className="truncate font-semibold">John Doe</span>
-                      <span className="truncate text-xs">john@company.com</span>
+                      <span className="truncate font-semibold">
+                        {loading ? "Loading..." : user?.name || "User"}
+                      </span>
+                      <span className="truncate text-xs">
+                        {loading ? "..." : user?.email || "user@example.com"}
+                      </span>
                     </div>
                   </div>
                 </DropdownMenuLabel>
@@ -180,7 +207,7 @@ export function AppSidebar() {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>

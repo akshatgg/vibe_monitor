@@ -1,4 +1,5 @@
 import { tokenService } from './tokenService';
+import { errorHandler } from '@/lib/errorHandler';
 
 interface ApiResponse<T = unknown> {
   data?: T;
@@ -18,10 +19,13 @@ export class ApiService {
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
     try {
+      // Check if token is expired or about to expire, and refresh if needed
+      await this.ensureValidToken();
+
       const token = tokenService.getAccessToken();
       const headers = new Headers(options.headers);
 
-      if (token && !tokenService.isTokenExpired()) {
+      if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
 
@@ -47,17 +51,39 @@ export class ApiService {
           const retryData = await retryResponse.json();
           return { data: retryData, status: retryResponse.status };
         } else {
-          // Refresh failed, redirect to login
-          tokenService.clearTokens();
-          window.location.href = '/auth';
+          // Refresh failed, handle auth error properly
+          errorHandler.handleAuthError('Token refresh failed', {
+            customMessage: 'Your session has expired. Please log in again.',
+            redirectToAuth: true
+          });
           return { error: 'Authentication failed', status: 401 };
         }
       }
 
       return { data, status: response.status };
     } catch (error) {
-      console.error('API request failed:', error);
-      return { error: 'Network error', status: 500 };
+      const errorMessage = error instanceof Error ? error.message : 'Network error';
+      errorHandler.handleNetworkError(errorMessage, {
+        customMessage: 'Failed to connect to server. Please check your internet connection.'
+      });
+      return { error: errorMessage, status: 500 };
+    }
+  }
+
+  private async ensureValidToken(): Promise<void> {
+    const hasValidToken = tokenService.hasValidToken();
+    const refreshToken = tokenService.getRefreshToken();
+
+    if (!hasValidToken && refreshToken) {
+      // Token is expired or about to expire, refresh it
+      const refreshed = await this.refreshToken();
+      if (!refreshed) {
+        // Refresh failed, handle auth error properly
+        errorHandler.handleAuthError('Token validation failed', {
+          customMessage: 'Session expired. Redirecting to login...',
+          redirectToAuth: true
+        });
+      }
     }
   }
 
@@ -66,12 +92,15 @@ export class ApiService {
     if (!refreshToken) return false;
 
     try {
-      const response = await fetch(`${this.baseUrl}/api/v1/auth/refresh`, {
+      const params = new URLSearchParams({
+        refresh_token: refreshToken
+      });
+
+      const response = await fetch(`${this.baseUrl}/api/v1/auth/refresh?${params.toString()}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ refresh_token: refreshToken })
+        }
       });
 
       if (response.ok) {
@@ -79,13 +108,24 @@ export class ApiService {
         tokenService.setTokens({
           access_token: tokenData.access_token,
           refresh_token: tokenData.refresh_token || refreshToken,
-          expires_in: tokenData.expires_in || 3600
+          expires_in: tokenData.expires_in 
         });
         return true;
       }
+
+      // Handle non-200 responses from refresh endpoint
+      const errorMessage = `Token refresh failed with status ${response.status}`;
+      errorHandler.handleAuthError(errorMessage, {
+        customMessage: 'Unable to refresh your session. Please log in again.',
+        showAlert: false // Don't show alert here as it will be handled by the caller
+      });
       return false;
     } catch (error) {
-      console.error('Token refresh failed:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Token refresh network error';
+      errorHandler.handleNetworkError(errorMessage, {
+        customMessage: 'Network error during token refresh. Please try again.',
+        showAlert: false // Don't show alert here as it will be handled by the caller
+      });
       return false;
     }
   }
@@ -110,6 +150,16 @@ export class ApiService {
 
   async delete<T>(endpoint: string): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, { method: 'DELETE' });
+  }
+
+  // User-specific API methods
+  async getUserProfile(): Promise<ApiResponse<{
+    id: string;
+    name: string;
+    email: string;
+    created_at: string;
+  }>> {
+    return this.get('/api/v1/auth/me');
   }
 }
 

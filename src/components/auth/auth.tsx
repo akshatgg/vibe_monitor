@@ -2,56 +2,10 @@
 
 import GoogleSignInButton from './GoogleSignInButton'
 import Image from 'next/image'
-import { authController } from '@/controllers/authController'
-import { useEffect, useState } from 'react'
 
 export default function Auth() {
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string>('')
-
-  useEffect(() => {
-    // Check if this is a callback from Google OAuth
-    const urlParams = new URLSearchParams(window.location.search)
-    const code = urlParams.get('code')
-    const error = urlParams.get('error')
-    
-    if (code || error) {
-      handleGoogleCallback()
-    } else {
-      setIsLoading(false)
-    }
-  }, [])
-
-  const handleGoogleCallback = async () => {
-    setIsLoading(true)
-    const result = await authController.handleGoogleCallback()
-
-    if (result.success) {
-      console.log('Authentication successful')
-      window.location.href = result.redirectUrl || '/workspace'
-    } else {
-      console.error('Authentication failed:', result.error)
-      setError(result.error || 'Authentication failed')
-      // Clear URL parameters
-      window.history.replaceState({}, document.title, window.location.pathname)
-      setIsLoading(false)
-    }
-  }
-
   const handleGoogleError = (error: string | Error) => {
     console.error('Google Sign-In error:', error)
-    setError(typeof error === 'string' ? error : error.message)
-  }
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p>Processing authentication...</p>
-        </div>
-      </div>
-    )
   }
 
   return (
@@ -100,12 +54,6 @@ export default function Auth() {
         </div>
       </div>
 
-      {/* Error Message */}
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded">
-          {error}
-        </div>
-      )}
 
       {/* Google Sign In Button */}
       <div className="space-y-4">

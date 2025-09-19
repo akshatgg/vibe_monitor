@@ -5,7 +5,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DynamicHeader } from "@/components/dynamic-header"
 
-const authPaths = ["/auth", "/login", "/register", "/signup", "/signin", "/forgot-password", "/reset-password"]
+const authPaths = ["/auth", "/login", "/register", "/signup", "/signin", "/auth/google/callback","/workspace"]
 
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
