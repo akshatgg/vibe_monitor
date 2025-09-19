@@ -5,7 +5,6 @@ import Link from "next/link"
 
 interface PageInProgressProps {
   title?: string
-  description?: string
   showBackButton?: boolean
   backUrl?: string
   estimatedTime?: string
@@ -13,7 +12,6 @@ interface PageInProgressProps {
 
 export function PageInProgress({
   title = "Page Under Construction",
-  description = "We're working hard to bring you this feature. Please check back soon!",
   showBackButton = true,
   backUrl = "/",
   estimatedTime
