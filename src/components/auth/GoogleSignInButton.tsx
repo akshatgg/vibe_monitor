@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { useState } from "react"
 
 interface GoogleSignInButtonProps {
-  onError?: (error: string) => void
+  onError?: (error: string | Error) => void
   disabled?: boolean
   className?: string
   text?: string
@@ -19,45 +19,28 @@ export default function GoogleSignInButton({
   const [isLoading, setIsLoading] = useState(false)
 
   const handleGoogleSignIn = async () => {
-    const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
-    if (!clientId) {
-      console.error('Google Client ID not configured')
-      onError?.('Google Sign-In not properly configured')
-      return
-    }
-
     setIsLoading(true)
 
     try {
-      // Use frontend callback URL to match Google console config
+      // Redirect directly to FastAPI backend OAuth endpoint
       const redirectUri = `${window.location.origin}/auth/google/callback`
-      const scope = 'openid email profile'
-      const responseType = 'code'
-      // const state = Math.random().toString(36).substring(2, 15)
-
-      // Store state for validation
-      // localStorage.setItem('oauth_state', state)
-      // console.log('Generated state:', state)
-
       const params = new URLSearchParams({
-        client_id: clientId,
         redirect_uri: redirectUri,
-        scope,
-        response_type: responseType,
-        // state,
-        access_type: 'offline',
-        prompt: 'consent'
+        code_challenge_method: 'S256'
       })
 
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+      const backendAuthUrl = `${backendUrl}/api/v1/auth/login?${params.toString()}`
 
-      // Redirect to Google OAuth
-      window.location.href = authUrl
+      console.log('Redirecting to:', backendAuthUrl)
+
+      // Redirect to backend, which will redirect to Google OAuth
+      window.location.href = backendAuthUrl
 
     } catch (error) {
       setIsLoading(false)
       console.error('Google Sign-In error:', error)
-      onError?.(error instanceof Error ? error.message : 'Unknown error occurred')
+      onError?.(error instanceof Error ? error : 'Unknown error occurred')
     }
   }
 

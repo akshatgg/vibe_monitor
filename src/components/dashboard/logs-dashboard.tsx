@@ -78,26 +78,8 @@ export default function LogsDashboard() {
 
   return (
     <div className="flex flex-col h-screen bg-black text-white">
-      {/* Header */}
-      <div className="border-b px-6 py-4 bg-black" style={{
-        borderColor: "var(--color-border-subtle)",
-        borderWidth: "0.5px"
-      }}>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
-              <div
-                className="w-1 h-6 rounded-full flex-shrink-0"
-                style={{ backgroundColor: "#3F5ECC" }}
-              />
-              <h1 className="text-xl font-semibold text-white">
-                Logs DashBoard
-              </h1>
-            </div>
-           
-          </div>
-        </div>
-      </div>
+    
+   
 
       {/* Filters */}
       <div className="border-b px-6 py-3" style={{
@@ -155,7 +137,7 @@ export default function LogsDashboard() {
                         <SelectItem key={option.value} value={option.value} className="py-1">
                           <div className="flex justify-between items-center w-full">
                             <span>{option.label}</span>
-                           
+
                           </div>
                         </SelectItem>
                       ))}
@@ -170,7 +152,7 @@ export default function LogsDashboard() {
                         <SelectItem key={option.value} value={option.value} className="py-1">
                           <div className="flex justify-between items-center w-full">
                             <span>{option.label}</span>
-                           
+
                           </div>
                         </SelectItem>
                       ))}
@@ -218,7 +200,7 @@ export default function LogsDashboard() {
             >
               <div
                 className="w-1 h-4 rounded-full flex-shrink-0 mt-0.5"
-                style={{ backgroundColor: "#3F5ECC" }}
+                style={{ backgroundColor: "var(--color-blue-line)" }}
               />
               <span>{log}</span>
             </div>
