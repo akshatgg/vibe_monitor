@@ -4,8 +4,9 @@ import { usePathname } from "next/navigation"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { DynamicHeader } from "@/components/dynamic-header"
+import { AuthGuard } from "@/components/auth-guard"
 
-const authPaths = ["/auth", "/login", "/register", "/signup", "/signin", "/auth/google/callback","/workspace"]
+const authPaths = ["/auth", "/auth/google/callback", "/workspace"]
 
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -13,25 +14,25 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   // Check if current path is an auth page
   const isAuthPage = authPaths.some(path => pathname.startsWith(path))
 
-  if (isAuthPage) {
-    // Render without sidebar for auth pages
-    return (
-      <div className="min-h-screen flex flex-col">
-        {children}
-      </div>
-    )
-  }
-
-  // Render with sidebar for all other pages
   return (
-    <SidebarProvider>
-      <AppSidebar />
-      <SidebarInset>
-        <DynamicHeader />
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+    <AuthGuard>
+      {isAuthPage ? (
+        // Render without sidebar for auth pages
+        <div className="min-h-screen flex flex-col">
           {children}
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      ) : (
+        // Render with sidebar for all other pages
+        <SidebarProvider>
+          <AppSidebar />
+          <SidebarInset>
+            <DynamicHeader />
+            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+              {children}
+            </div>
+          </SidebarInset>
+        </SidebarProvider>
+      )}
+    </AuthGuard>
   )
 }

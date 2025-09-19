@@ -3,6 +3,8 @@
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Loader2 } from "lucide-react"
 
 interface ConnectAppProps {
   workspaceName: string;
@@ -11,6 +13,8 @@ interface ConnectAppProps {
 export default function ConnectApp({ }: ConnectAppProps) {
   const [apiKey] = useState("vibe_sk_1234567890abcdef");
   const [copied, setCopied] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleCopyApiKey = () => {
     navigator.clipboard.writeText(apiKey);
@@ -19,7 +23,14 @@ export default function ConnectApp({ }: ConnectAppProps) {
   };
 
   const handleTestConnection = () => {
+    setIsLoading(true);
     console.log("Testing connection...");
+
+    // Show loader for 2 seconds then redirect
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push("/");
+    }, 2000);
   };
 
   return (
@@ -168,10 +179,18 @@ export default function ConnectApp({ }: ConnectAppProps) {
             <div className="ml-11">
               <Button
                 onClick={handleTestConnection}
+                disabled={isLoading}
                 className="text-white hover:brightness-90"
                 style={{ backgroundColor: 'var(--color-text-brand)' }}
               >
-                Test connection
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Testing connection...
+                  </>
+                ) : (
+                  "Test connection"
+                )}
               </Button>
             </div>
           </div>
