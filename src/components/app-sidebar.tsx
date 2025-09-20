@@ -19,7 +19,9 @@ import {
 import Link from "next/link"
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import { fetchUserProfile, clearUser } from "@/lib/features/userSlice"
+import { fetchWorkspaces } from "@/lib/features/workspaceSlice"
 import { tokenService } from "@/services/tokenService"
+import { WorkspaceSelector } from "@/components/workspace-selector"
 
 import {
   Sidebar,
@@ -91,6 +93,13 @@ export function AppSidebar() {
     }
   }, [dispatch, user])
 
+  useEffect(() => {
+    // Fetch workspaces when component mounts
+    if (tokenService.hasValidToken()) {
+      dispatch(fetchWorkspaces())
+    }
+  }, [dispatch])
+
   const handleLogout = () => {
     tokenService.clearTokens()
     dispatch(clearUser())
@@ -116,6 +125,12 @@ export function AppSidebar() {
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
+
+      {/* Workspace Selector */}
+      <div className="px-2 pb-2">
+        <WorkspaceSelector />
+      </div>
+
       <SidebarContent className="overflow-y-auto">
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>

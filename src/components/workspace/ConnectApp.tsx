@@ -8,9 +8,10 @@ import { Loader2 } from "lucide-react"
 
 interface ConnectAppProps {
   workspaceName: string;
+  onBack: () => void;
 }
 
-export default function ConnectApp({ }: ConnectAppProps) {
+export default function ConnectApp({ onBack }: ConnectAppProps) {
   const [apiKey] = useState("vibe_sk_1234567890abcdef");
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,20 +43,33 @@ export default function ConnectApp({ }: ConnectAppProps) {
         }}
       >
         <div className="text-center">
-          <div className="mb-4 flex items-center justify-center">
-            <Image
-              src="/images/logo.png"
-              alt="Vibe Monitor"
-              width={40}
-              height={40}
-              className="mr-3"
-            />
-            <h1
-              className="sm:text-xl md:text-2xl lg:text-2xl font-semibold"
-              style={{ color: 'var(--color-text-primary)' }}
+          <div className="mb-4 flex items-center justify-between">
+            <Button
+              onClick={onBack}
+              variant="outline"
+              size="sm"
+              className="flex items-center"
             >
-              Connect your app
-            </h1>
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </Button>
+            <div className="flex items-center">
+              <Image
+                src="/images/logo.png"
+                alt="Vibe Monitor"
+                width={40}
+                height={40}
+                className="mr-3"
+              />
+              <h1
+                className="sm:text-xl md:text-2xl lg:text-2xl font-semibold"
+                style={{ color: 'var(--color-text-primary)' }}
+              >
+                Connect your app
+              </h1>
+            </div>
+            <div className="w-16"></div>
           </div>
           <p
             className="text-base mb-6"

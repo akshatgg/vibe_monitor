@@ -161,6 +161,33 @@ export class ApiService {
   }>> {
     return this.get('/api/v1/auth/me');
   }
+
+  // Workspace-specific API methods
+  async getWorkspaces(): Promise<ApiResponse<{
+    id: string;
+    name: string;
+    domain: string;
+    visible_to_org: boolean;
+    created_at: string;
+    updated_at: string;
+  }[]>> {
+    return this.get('/api/v1/workspaces');
+  }
+
+  async createWorkspace(data: {
+    name: string;
+    domain: string;
+    visible_to_org: boolean;
+  }): Promise<ApiResponse<{
+    id: string;
+    name: string;
+    domain: string;
+    visible_to_org: boolean;
+    created_at: string;
+    updated_at: string;
+  }>> {
+    return this.post('/api/v1/workspaces', data);
+  }
 }
 
 export const apiService = new ApiService();
