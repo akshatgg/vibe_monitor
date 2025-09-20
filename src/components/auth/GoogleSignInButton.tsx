@@ -52,6 +52,7 @@ export default function GoogleSignInButton({
       onClick={handleGoogleSignIn}
       disabled={disabled || isLoading}
     >
+      
       {isLoading ? (
         <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
       ) : (
