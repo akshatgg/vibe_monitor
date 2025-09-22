@@ -23,6 +23,77 @@ const mockLogs = [
   "2025-09-11 00:02:09.789 | Background job processed: email_queue",
   "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
   "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+    "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
+  "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+    "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
+  "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+    "2025-09-11 00:02:05.227 | - Local: http://localhost:4501",
+  "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
+  "2025-09-11 00:02:12.890 | Session cleanup job started",
+   "2025-09-11 00:02:05.227 | ▲ Next.js 15.4.5",
+  "2025-09-11 00:02:05.227 | > next dev -p 4500 -p 4501",
+  "2025-09-11 00:02:05.227 | > my-v0-project@0.1.0 dev",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 64ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 70ms",
+  "2025-09-11 00:02:05.227 | GET /auth/signin 200 in 222ms",
+  "2025-09-11 00:02:05.227 | GET /api/auth/user/cmen9refs0000v6y9b92iu88m 200 in 45ms",
+  "2025-09-11 00:02:06.151 | POST /api/auth/login 201 in 89ms",
+  "2025-09-11 00:02:06.205 | GET /dashboard 200 in 12ms",
+  "2025-09-11 00:02:06.301 | GET /api/logs 200 in 156ms",
+  "2025-09-11 00:02:07.445 | WebSocket connection established",
+  "2025-09-11 00:02:08.123 | Database connection pool: 8/10 connections active",
+  "2025-09-11 00:02:08.456 | Cache hit ratio: 94.5%",
+  "2025-09-11 00:02:09.789 | Background job processed: email_queue",
+  "2025-09-11 00:02:10.234 | GET /api/metrics 200 in 23ms",
+  "2025-09-11 00:02:11.567 | Rate limit check: user_12345 within limits",
   "2025-09-11 00:02:12.890 | Session cleanup job started"
 ]
 
@@ -77,15 +148,15 @@ export default function LogsDashboard() {
   }
 
   return (
-    <div className="flex flex-col h-screen w-full max-w-full bg-black text-white overflow-hidden">
+    <div className="flex flex-col h-screen bg-black text-white overflow-hidden">
       {/* Filters */}
       <div className="flex-shrink-0 border-b px-6 py-3" style={{
         background: "var(--color-background-subtle)",
         borderColor: "var(--color-border-subtle)",
         borderWidth: "0.5px"
       }}>
-        <div className="flex items-center gap-4 flex-wrap min-w-0">
-          <div className="flex-1 min-w-0 relative">
+        <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex-1 min-w-64 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 z-10"
               style={{ color: "var(--color-text-tertiary)" }} />
             <Input
@@ -93,12 +164,12 @@ export default function LogsDashboard() {
               placeholder="Search logs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 w-full"
+              className="pl-10"
             />
           </div>
 
           <Select value={selectedTimeRange} onValueChange={setSelectedTimeRange}>
-            <SelectTrigger className="w-48 min-w-0 flex-shrink-0">
+            <SelectTrigger className="w-48 min-w-fit">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4" style={{ color: "var(--color-text-tertiary)" }} />
                 <SelectValue>
@@ -173,7 +244,7 @@ export default function LogsDashboard() {
           </Select>
 
           <Select value={selectedOrderBy} onValueChange={setSelectedOrderBy}>
-            <SelectTrigger className="w-40 min-w-0 flex-shrink-0">
+            <SelectTrigger className="w-40">
               <SelectValue placeholder="Order By" />
             </SelectTrigger>
             <SelectContent>
@@ -184,32 +255,29 @@ export default function LogsDashboard() {
         </div>
       </div>
 
-      {/* Log Terminal */}
-      <div className="flex-1 min-h-0 bg-black border-t border-gray-800 overflow-hidden">
-        <div className="h-full bg-gray-950 rounded-lg m-4 border border-gray-800 flex flex-col overflow-hidden">
-          <div className="flex-1 min-h-0 overflow-y-scroll overflow-x-hidden p-4 font-mono text-sm auto-hide-scrollbar" style={{ maxHeight: 'calc(100vh - 200px)' }}>
-            {mockLogs.concat(mockLogs).concat(mockLogs).map((log, index) => (
+      {/* Log Stream */}
+      <div className="flex-1 overflow-hidden bg-black">
+        <div className="h-full overflow-y-auto p-4" style={{
+          fontFamily: "var(--font-mono)"
+        }}>
+          {mockLogs.map((log, index) => (
+            <div
+              key={index}
+              className="text-sm font-mono leading-tight mb-0 flex items-start gap-2"
+              style={{ color: "var(--color-text-tertiary)" }}
+            >
               <div
-                key={index}
-                className="flex items-start gap-3 hover:bg-gray-900/50 px-2 py-0.5 rounded leading-tight"
-              >
-                <span className="text-gray-500 text-xs flex-shrink-0">
-                  {String(index + 1).padStart(3, '0')}
-                </span>
-                <div className="flex items-start gap-2 flex-1 min-w-0">
-                  <div
-                    className="w-1 h-3 rounded-full flex-shrink-0 mt-1"
-                    style={{ backgroundColor: "var(--color-blue-line)" }}
-                  />
-                  <span className="text-gray-300 break-all leading-tight">{log}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+                className="w-1 h-4 rounded-full flex-shrink-0 mt-0.5"
+                style={{ backgroundColor: "var(--color-blue-line)" }}
+              />
+              <span>{log}</span>
+            </div>
+          ))}
         </div>
       </div>
 
 
     </div>
   )
+  
 }
