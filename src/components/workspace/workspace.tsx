@@ -55,7 +55,8 @@ export default function WorkspacePage() {
         setWorkspaceDomain("");
         setVisibleToOrg(false);
         setShowCreateForm(false);
-        setShowConnectApp(true);
+        // Navigate to the new workspace
+        window.location.href = `/${result.payload.id}`;
       }
       // If creation failed, the error will be shown via createError state
     }
@@ -66,7 +67,8 @@ export default function WorkspacePage() {
     const workspace = workspaces.find(w => w.id === workspaceId);
     if (workspace) {
       dispatch(setCurrentWorkspace(workspace));
-      setShowConnectApp(true);
+      // Navigate to the workspace dashboard instead of showing ConnectApp
+      window.location.href = `/${workspaceId}`;
     }
   };
 

@@ -24,13 +24,15 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       ) : (
         // Render with sidebar for all other pages
         <SidebarProvider>
-          <AppSidebar />
-          <SidebarInset>
-            <DynamicHeader />
-            <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-              {children}
-            </div>
-          </SidebarInset>
+          <div className="flex h-screen w-full overflow-hidden">
+            <AppSidebar />
+            <SidebarInset className="flex-1 min-w-0">
+              <DynamicHeader />
+              <div className="flex flex-1 flex-col h-full overflow-hidden">
+                {children}
+              </div>
+            </SidebarInset>
+          </div>
         </SidebarProvider>
       )}
     </AuthGuard>

@@ -77,18 +77,15 @@ export default function LogsDashboard() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-black text-white">
-    
-   
-
+    <div className="flex flex-col h-screen w-full max-w-full bg-black text-white overflow-hidden">
       {/* Filters */}
-      <div className="border-b px-6 py-3" style={{
+      <div className="flex-shrink-0 border-b px-6 py-3" style={{
         background: "var(--color-background-subtle)",
         borderColor: "var(--color-border-subtle)",
         borderWidth: "0.5px"
       }}>
-        <div className="flex items-center gap-4 flex-wrap">
-          <div className="flex-1 min-w-64 relative">
+        <div className="flex items-center gap-4 flex-wrap min-w-0">
+          <div className="flex-1 min-w-0 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 z-10"
               style={{ color: "var(--color-text-tertiary)" }} />
             <Input
@@ -96,12 +93,12 @@ export default function LogsDashboard() {
               placeholder="Search logs..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10"
+              className="pl-10 w-full"
             />
           </div>
 
           <Select value={selectedTimeRange} onValueChange={setSelectedTimeRange}>
-            <SelectTrigger className="w-48 min-w-fit">
+            <SelectTrigger className="w-48 min-w-0 flex-shrink-0">
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4" style={{ color: "var(--color-text-tertiary)" }} />
                 <SelectValue>
@@ -176,7 +173,7 @@ export default function LogsDashboard() {
           </Select>
 
           <Select value={selectedOrderBy} onValueChange={setSelectedOrderBy}>
-            <SelectTrigger className="w-40">
+            <SelectTrigger className="w-40 min-w-0 flex-shrink-0">
               <SelectValue placeholder="Order By" />
             </SelectTrigger>
             <SelectContent>
@@ -187,24 +184,28 @@ export default function LogsDashboard() {
         </div>
       </div>
 
-      {/* Log Stream */}
-      <div className="flex-1 overflow-hidden bg-black">
-        <div className="h-full overflow-y-auto p-4" style={{
-          fontFamily: "var(--font-mono)"
-        }}>
-          {mockLogs.map((log, index) => (
-            <div
-              key={index}
-              className="text-sm font-mono leading-tight mb-0 flex items-start gap-2"
-              style={{ color: "var(--color-text-tertiary)" }}
-            >
+      {/* Log Terminal */}
+      <div className="flex-1 min-h-0 bg-black border-t border-gray-800 overflow-hidden">
+        <div className="h-full bg-gray-950 rounded-lg m-4 border border-gray-800 flex flex-col overflow-hidden">
+          <div className="flex-1 min-h-0 overflow-y-scroll overflow-x-hidden p-4 font-mono text-sm auto-hide-scrollbar" style={{ maxHeight: 'calc(100vh - 200px)' }}>
+            {mockLogs.concat(mockLogs).concat(mockLogs).map((log, index) => (
               <div
-                className="w-1 h-4 rounded-full flex-shrink-0 mt-0.5"
-                style={{ backgroundColor: "var(--color-blue-line)" }}
-              />
-              <span>{log}</span>
-            </div>
-          ))}
+                key={index}
+                className="flex items-start gap-3 hover:bg-gray-900/50 px-2 py-0.5 rounded leading-tight"
+              >
+                <span className="text-gray-500 text-xs flex-shrink-0">
+                  {String(index + 1).padStart(3, '0')}
+                </span>
+                <div className="flex items-start gap-2 flex-1 min-w-0">
+                  <div
+                    className="w-1 h-3 rounded-full flex-shrink-0 mt-1"
+                    style={{ backgroundColor: "var(--color-blue-line)" }}
+                  />
+                  <span className="text-gray-300 break-all leading-tight">{log}</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

@@ -41,6 +41,37 @@ html, body {
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
+/* Auto-hiding scrollbar styles */
+.auto-hide-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(75, 85, 99, 0.3) transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.auto-hide-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.auto-hide-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.auto-hide-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(75, 85, 99, 0.3);
+  border-radius: 4px;
+  transition: background-color 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.auto-hide-scrollbar:hover::-webkit-scrollbar-thumb {
+  opacity: 1;
+  background-color: rgba(75, 85, 99, 0.6);
+}
+
+.auto-hide-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(75, 85, 99, 0.8);
+}
+
 
 
 

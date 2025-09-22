@@ -11,7 +11,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className="min-h-screen bg-[var(--color-background)] text-[var(--color-text-primary)] transition-colors duration-500"
+        className="min-h-screen max-w-full overflow-x-hidden bg-[var(--color-background)] text-[var(--color-text-primary)] transition-colors duration-500"
         suppressHydrationWarning={true}
       >
         <StoreProvider>

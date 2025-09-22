@@ -5,10 +5,12 @@ import { errorHandler } from '@/lib/errorHandler'
 export interface Workspace {
   id: string
   name: string
-  domain: string
+  domain: string | null
   visible_to_org: boolean
+  is_paid?: boolean
   created_at: string
-  updated_at: string
+  updated_at?: string
+  user_role?: string
 }
 
 interface WorkspaceState {
@@ -89,6 +91,38 @@ export const createWorkspace = createAsyncThunk(
   }
 )
 
+export const fetchWorkspaceById = createAsyncThunk(
+  'workspace/fetchWorkspaceById',
+  async (workspaceId: string, { rejectWithValue }) => {
+    try {
+      const response = await apiService.getWorkspaceById(workspaceId)
+      if (response.status === 200 && response.data) {
+        return response.data
+      } else if (response.status === 401) {
+        errorHandler.handleAuthError('Authentication failed while fetching workspace', {
+          customMessage: 'Please log in again to continue.',
+          redirectToAuth: true
+        })
+        return rejectWithValue('Authentication failed')
+      } else if (response.status === 404) {
+        return rejectWithValue('Workspace not found')
+      } else {
+        const errorMessage = response.error || 'Failed to fetch workspace'
+        errorHandler.handleGenericError(errorMessage, {
+          customMessage: 'Unable to load workspace. Please try again.'
+        })
+        return rejectWithValue(errorMessage)
+      }
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
+      errorHandler.handleNetworkError(errorMessage, {
+        customMessage: 'Network error while loading workspace. Please check your connection.'
+      })
+      return rejectWithValue(errorMessage)
+    }
+  }
+)
+
 const workspaceSlice = createSlice({
   name: 'workspace',
   initialState,
@@ -137,6 +171,21 @@ const workspaceSlice = createSlice({
       .addCase(createWorkspace.rejected, (state, action) => {
         state.createLoading = false
         state.createError = action.payload as string
+      })
+      // Fetch workspace by ID
+      .addCase(fetchWorkspaceById.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(fetchWorkspaceById.fulfilled, (state, action) => {
+        state.loading = false
+        state.currentWorkspace = action.payload
+        state.error = null
+      })
+      .addCase(fetchWorkspaceById.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.payload as string
+        state.currentWorkspace = null
       })
   },
 })

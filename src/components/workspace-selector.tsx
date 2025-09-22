@@ -37,6 +37,8 @@ export function WorkspaceSelector() {
   const handleWorkspaceSelect = (workspace: Workspace) => {
     dispatch(setCurrentWorkspace(workspace));
     setIsOpen(false);
+    // Navigate to the workspace dashboard
+    router.push(`/${workspace.id}`);
   };
 
   const handleCreateNewWorkspace = () => {

@@ -1,5 +1,6 @@
 import { tokenService } from './tokenService';
 import { errorHandler } from '@/lib/errorHandler';
+import { CookieUtils } from '@/utils/cookieUtils';
 
 interface ApiResponse<T = unknown> {
   data?: T;
@@ -92,39 +93,52 @@ export class ApiService {
     if (!refreshToken) return false;
 
     try {
-      const params = new URLSearchParams({
-        refresh_token: refreshToken
-      });
-
-      const response = await fetch(`${this.baseUrl}/api/v1/auth/refresh?${params.toString()}`, {
+      const response = await fetch(`${this.baseUrl}/api/v1/auth/refresh`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        }
+        },
+        body: JSON.stringify({
+          refresh_token: refreshToken
+        })
       });
 
       if (response.ok) {
         const tokenData = await response.json();
-        tokenService.setTokens({
-          access_token: tokenData.access_token,
-          refresh_token: tokenData.refresh_token || refreshToken,
-          expires_in: tokenData.expires_in 
-        });
+
+        // Update the access token and expiration time in localStorage
+        if (tokenData.access_token && tokenData.expires_in) {
+          tokenService.updateAccessToken(tokenData.access_token, tokenData.expires_in);
+        }
+
+        // Store new refresh token in cookie if provided (with 30-day expiration)
+        if (tokenData.refresh_token) {
+          CookieUtils.setRefreshToken(tokenData.refresh_token);
+        }
+
         return true;
       }
 
-      // Handle non-200 responses from refresh endpoint
+      // Handle non-200 responses from refresh endpoint - refresh token has expired
       const errorMessage = `Token refresh failed with status ${response.status}`;
+
+      // Clear all tokens when refresh token expires
+      tokenService.clearTokens();
+
       errorHandler.handleAuthError(errorMessage, {
-        customMessage: 'Unable to refresh your session. Please log in again.',
-        showAlert: false // Don't show alert here as it will be handled by the caller
+        customMessage: 'Your session has expired. Please log in again.',
+        redirectToAuth: true
       });
       return false;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Token refresh network error';
+
+      // Clear tokens on network error during refresh (could indicate expired refresh token)
+      tokenService.clearTokens();
+
       errorHandler.handleNetworkError(errorMessage, {
-        customMessage: 'Network error during token refresh. Please try again.',
-        showAlert: false // Don't show alert here as it will be handled by the caller
+        customMessage: 'Unable to refresh your session. Please log in again.',
+        redirectToAuth: true
       });
       return false;
     }
@@ -187,6 +201,18 @@ export class ApiService {
     updated_at: string;
   }>> {
     return this.post('/api/v1/workspaces', data);
+  }
+
+  async getWorkspaceById(workspaceId: string): Promise<ApiResponse<{
+    id: string;
+    name: string;
+    domain: string | null;
+    visible_to_org: boolean;
+    is_paid: boolean;
+    created_at: string;
+    user_role: string;
+  }>> {
+    return this.get(`/api/v1/workspaces/${workspaceId}`);
   }
 }
 
