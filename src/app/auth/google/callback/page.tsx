@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { tokenService } from '@/services/tokenService'
+import Loader from '@/components/ui/loader'
 
 export default function GoogleCallbackPage() {
   const router = useRouter()
@@ -75,12 +76,5 @@ export default function GoogleCallbackPage() {
     handleCallback()
   }, [router])
 
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-        <p>{status}</p>
-      </div>
-    </div>
-  )
+  return <Loader message={status} />
 }

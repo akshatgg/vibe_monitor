@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/lib/store"
 import { fetchWorkspaces } from "@/lib/features/workspaceSlice"
 import { Skeleton } from "@/components/ui/skeleton"
+import Loader from "@/components/ui/loader"
 import Link from "next/link"
 
 export default function Home() {
@@ -61,12 +62,5 @@ export default function Home() {
   }
 
   // This should rarely be reached as the useEffect should redirect
-  return (
-    <div className="flex flex-col items-center justify-center h-screen bg-black text-white">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Redirecting...</h1>
-        <p className="text-gray-400">Please wait while we load your workspace.</p>
-      </div>
-    </div>
-  )
+  return <Loader message="Please wait while we load your workspace." />
 }

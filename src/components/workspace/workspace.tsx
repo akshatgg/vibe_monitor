@@ -117,13 +117,30 @@ export default function WorkspacePage() {
         {/* Existing Workspaces */}
         {loading ? (
           <div className="space-y-4">
-            <h3 className="text-lg font-medium" style={{ color: 'var(--color-text-primary)' }}>
-              Your Workspaces
-            </h3>
-            <div className="space-y-3">
-              <Skeleton className="h-14 w-full rounded-lg" />
-              <Skeleton className="h-14 w-full rounded-lg" />
-              <Skeleton className="h-14 w-full rounded-lg" />
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-5 w-8 rounded" />
+            </div>
+            <div className="space-y-2 max-h-64 overflow-y-auto sidebar-scrollbar">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div
+                  key={i}
+                  className="w-full p-3 rounded-lg border"
+                  style={{
+                    backgroundColor: 'var(--color-surface-secondary)',
+                    borderColor: 'var(--color-border)',
+                  }}
+                >
+                  <div className="flex items-center space-x-3">
+                    <Skeleton className="w-8 h-8 rounded-md" />
+                    <div className="flex-1 min-w-0 space-y-1">
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-3 w-32" />
+                    </div>
+                    <Skeleton className="w-4 h-4" />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         ) : workspaces.length > 0 ? (
