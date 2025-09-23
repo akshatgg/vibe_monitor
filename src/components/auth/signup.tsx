@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
+import Link from "next/link"
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton"
 
 export default function SignupPage() {
@@ -117,13 +118,13 @@ export default function SignupPage() {
             style={{ color: 'var(--color-text-secondary)' }}
           >
             Already have an account?{' '}
-            <a 
-              href="/auth/signin" 
+            <Link
+              href="/auth/signin"
               className="font-medium underline"
               style={{ color: 'var(--color-text-brand)' }}
             >
               Sign in
-            </a>
+            </Link>
           </p>
         </div>
       </div>
