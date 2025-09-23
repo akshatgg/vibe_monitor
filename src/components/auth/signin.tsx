@@ -72,13 +72,13 @@ export default function SigninPage() {
                 Remember me
               </span>
             </label>
-            <a 
+            <Link 
               href="#" 
               className="text-sm underline"
               style={{ color: 'var(--color-text-brand)' }}
             >
               Forgot password?
-            </a>
+            </Link>
           </div>
           <Button 
             type="submit" 
@@ -113,21 +113,21 @@ export default function SigninPage() {
           style={{ color: 'var(--color-text-tertiary)' }}
         >
           By continuing, you agree to our{' '}
-          <a 
+          <Link 
             href="#" 
             className="underline"
             style={{ color: 'var(--color-text-brand)' }}
           >
             Terms of Service
-          </a>{' '}
+          </Link>{' '}
           and{' '}
-          <a 
-            href="#" 
+          <Link
+            href="#"
             className="underline"
             style={{ color: 'var(--color-text-brand)' }}
           >
             Privacy Policy
-          </a>.
+          </Link>.
         </p>
 
         <div className="text-center mt-4">
