@@ -20,7 +20,7 @@ export default function WorkspacePage() {
   const [selectedWorkspace, setSelectedWorkspace] = useState<string>("");
 
   const dispatch = useDispatch<AppDispatch>();
-  const { workspaces, loading, error, createLoading, createError, currentWorkspace } = useSelector(
+  const { workspaces, loading, createLoading, createError, currentWorkspace } = useSelector(
     (state: RootState) => state.workspace
   );
 
@@ -111,44 +111,8 @@ export default function WorkspacePage() {
           </p>
         </div>
 
-        {error && (
-          <div
-            className="p-4 rounded-lg border-l-4 flex items-center space-x-3"
-            style={{
-              backgroundColor: 'rgba(239, 68, 68, 0.1)',
-              borderLeftColor: '#ef4444',
-              color: '#dc2626'
-            }}
-          >
-            <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-            <div>
-              <p className="font-medium text-sm">Failed to load workspaces</p>
-              <p className="text-xs opacity-90">{error}</p>
-            </div>
-          </div>
-        )}
-
-        {createError && (
-          <div
-            className="p-4 rounded-lg border-l-4 flex items-center space-x-3"
-            style={{
-              backgroundColor: 'rgba(239, 68, 68, 0.1)',
-              borderLeftColor: '#ef4444',
-              color: '#dc2626'
-            }}
-          >
-            <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-            </svg>
-            <div>
-              <p className="font-medium text-sm">Failed to create workspace</p>
-              <p className="text-xs opacity-90">{createError}</p>
-            </div>
-          </div>
-        )}
-
+    
+    
         {/* Existing Workspaces */}
         {loading ? (
           <div className="space-y-4">
