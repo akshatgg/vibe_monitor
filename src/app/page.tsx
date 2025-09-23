@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch, RootState } from "@/lib/store"
 import { fetchWorkspaces } from "@/lib/features/workspaceSlice"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Link } from "lucide-react"
+import Link from "next/link"
 
 export default function Home() {
   const router = useRouter()

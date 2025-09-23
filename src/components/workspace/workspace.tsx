@@ -177,7 +177,7 @@ export default function WorkspacePage() {
                 {workspaces.length}
               </span>
             </div>
-            <div className="space-y-2 max-h-64 overflow-y-auto">
+            <div className="space-y-2 max-h-64 overflow-y-auto sidebar-scrollbar">
               {workspaces.map((workspace) => (
                 <button
                   key={workspace.id}

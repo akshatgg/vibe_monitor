@@ -257,7 +257,7 @@ export default function LogsDashboard() {
 
       {/* Log Stream */}
       <div className="flex-1 overflow-hidden bg-black">
-        <div className="h-full overflow-y-auto p-4" style={{
+        <div className="h-full overflow-y-auto sidebar-scrollbar p-4" style={{
           fontFamily: "var(--font-mono)"
         }}>
           {mockLogs.map((log, index) => (

@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "@/lib/store"
 import { fetchWorkspaceById } from "@/lib/features/workspaceSlice"
 import LogsDashboard from "@/components/dashboard/logs-dashboard"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Link } from "lucide-react"
+import Link from "next/link"
 
 export default function WorkspacePage() {
   const params = useParams()

@@ -12,7 +12,7 @@ export class ApiService {
   private baseUrl: string;
 
   constructor(baseUrl: string = '') {
-    this.baseUrl = baseUrl || process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000';
+    this.baseUrl = baseUrl || process.env.NEXT_PUBLIC_BACKEND_URL || '';
   }
 
   private async request<T>(
@@ -124,7 +124,7 @@ export class ApiService {
 
       // Clear all tokens when refresh token expires
       tokenService.clearTokens();
-
+      CookieUtils.clearRefreshToken();
       errorHandler.handleAuthError(errorMessage, {
         customMessage: 'Your session has expired. Please log in again.',
         redirectToAuth: true

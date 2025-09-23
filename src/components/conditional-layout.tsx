@@ -26,9 +26,9 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
         <SidebarProvider>
           <div className="flex h-screen w-full overflow-hidden">
             <AppSidebar />
-            <SidebarInset className="flex-1 min-w-0">
+            <SidebarInset className="flex-1 min-w-0 min-h-0">
               <DynamicHeader />
-              <div className="flex flex-1 flex-col h-full overflow-hidden">
+              <div className="flex flex-1 flex-col h-full overflow-auto">
                 {children}
               </div>
             </SidebarInset>

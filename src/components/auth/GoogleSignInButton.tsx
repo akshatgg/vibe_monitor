@@ -32,8 +32,8 @@ export default function GoogleSignInButton({
       const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
       const backendAuthUrl = `${backendUrl}/api/v1/auth/login?${params.toString()}`
 
-      console.log('Redirecting to:', backendAuthUrl)
-
+      
+ 
       // Redirect to backend, which will redirect to Google OAuth
       window.location.href = backendAuthUrl
 

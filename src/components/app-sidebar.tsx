@@ -131,7 +131,7 @@ export function AppSidebar() {
         <WorkspaceSelector />
       </div>
 
-      <SidebarContent className="overflow-y-auto">
+      <SidebarContent className="overflow-y-auto sidebar-scrollbar">
         <SidebarGroup>
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
