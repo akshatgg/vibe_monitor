@@ -37,7 +37,7 @@ export default function GoogleCallbackPage() {
           redirect_uri: `${window.location.origin}/auth/google/callback`
         })
 
-        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8000'
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL 
         const response = await fetch(`${backendUrl}/api/v1/auth/callback?${callbackParams.toString()}`, {
           method: 'POST',
           headers: {
