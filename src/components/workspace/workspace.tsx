@@ -67,14 +67,15 @@ export default function WorkspacePage() {
     const workspace = workspaces.find(w => w.id === workspaceId);
     if (workspace) {
       dispatch(setCurrentWorkspace(workspace));
-      // Navigate to the workspace dashboard instead of showing ConnectApp
-      window.location.href = `/${workspaceId}`;
+      // Show ConnectApp component
+      setShowConnectApp(true);
     }
   };
 
   if (showConnectApp && (currentWorkspace || selectedWorkspace)) {
     return <ConnectApp
       workspaceName={currentWorkspace?.name || workspaceName}
+      workspaceId={selectedWorkspace || currentWorkspace?.id}
       onBack={() => setShowConnectApp(false)}
     />;
   }

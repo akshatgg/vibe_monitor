@@ -9,9 +9,10 @@ import { Loader2 } from "lucide-react"
 interface ConnectAppProps {
   workspaceName: string;
   onBack: () => void;
+  workspaceId?: string;
 }
 
-export default function ConnectApp({ onBack }: ConnectAppProps) {
+export default function ConnectApp({ onBack, workspaceId }: ConnectAppProps) {
   const [apiKey] = useState("vibe_sk_1234567890abcdef");
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,10 +28,14 @@ export default function ConnectApp({ onBack }: ConnectAppProps) {
     setIsLoading(true);
     console.log("Testing connection...");
 
-    // Show loader for 2 seconds then redirect
+    // Show loader for 2 seconds then redirect to workspace dashboard
     setTimeout(() => {
       setIsLoading(false);
-      router.push("/");
+      if (workspaceId) {
+        router.push(`/${workspaceId}`);
+      } else {
+        router.push("/");
+      }
     }, 2000);
   };
 
